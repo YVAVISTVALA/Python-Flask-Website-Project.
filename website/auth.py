@@ -14,7 +14,9 @@ def login():
 
         user = User.query.filter_by(email=email).first()
         if user:
-            if check_password_hash(user.password, password):
+            if not force and not user.is_active:
+                flash("Account is not active", category="error")
+            elifif check_password_hash(user.password, password):
                 flash("Logged in successfully", category='success')
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
